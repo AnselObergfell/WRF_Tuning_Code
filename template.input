@@ -1,0 +1,135 @@
+ &time_control
+ run_days                            = 0,
+ run_hours                           = 21,
+ run_minutes                         = 0,
+ run_seconds                         = 0,
+ start_year                          = 2009, 2009
+ start_month                         = 05,   05,
+ start_day                           = 06,   06,
+ start_hour                          = 06,   06,
+ end_year                            = 2009, 2009
+ end_month                           = 05,   05,
+ end_day                             = 07,   07,
+ end_hour                            = 03,   03,
+ interval_seconds                    = 10800,
+ input_from_file                     = .true.,.true.,
+ history_interval                    = 60,   10,
+ frames_per_outfile                  = 1440, 1440,
+ restart                             = .false.,
+ restart_interval                    = 1260,
+ io_form_history                     = 2
+ io_form_restart                     = 2
+ io_form_input                       = 2
+ io_form_boundary                    = 2
+ auxinput15_inname                   = "input_aer_aod_d01.nc"
+ auxinput15_interval_h               = 1,    1,
+ io_form_auxinput15                  = 2,
+ force_use_old_data = .true.
+ debug_level                         = 200
+ /
+
+ &domains
+ time_step                           = 27,
+ time_step_fract_num                 = 0,
+ time_step_fract_den                 = 1,
+ max_dom                             = 2,
+ e_we                                = 151,   31,
+ e_sn                                = 151,   31,
+ e_vert                              = 51,    51,
+ p_top_requested                     = 10000,
+ interp_type                         = 1, !linear in p
+ num_metgrid_levels                  = 30,
+ num_metgrid_soil_levels             = 4,
+ dx                                  = 9000,  3000,
+ dy                                  = 9000,  3000,
+ grid_id                             = 1,     2,
+ parent_id                           = 0,     1,
+ i_parent_start                      = 1,     71,
+ j_parent_start                      = 1,     71,
+ parent_grid_ratio                   = 1,     3,
+ parent_time_step_ratio              = 1,     3,
+ feedback                            = 1 !0=one-way 1=two-way nesting
+ smooth_option                       = 0
+ /
+
+ &physics
+ physics_suite                       = 'CONUS'
+ mp_physics                          =  28,    28, !default=8
+ cu_physics                          =  3,     3, !default=6
+ ra_lw_physics                       =  4,     4, !default=4
+ ra_sw_physics                       =  4,     4, !default=4
+ bl_pbl_physics                      =  5,     5, !default=2
+ sf_sfclay_physics                   =  5,     5, !default=2
+ sf_surface_physics                  =  3,     3, !default=2
+ radt                                = 1,     1,
+ bldt                                = 0,     0,
+ cudt                                = 0,     0,
+ icloud                              = 1,
+! icloud_bl                           = 0,        !default=1
+! bl_mynn_edmf                        = 0,     0, !default=1
+! shcu_physics                        = 5,     5, !Deng scheme
+! ishallow                            = 1,
+ cugd_avedx                          = 3,
+ isfflx                              = 1,
+ surface_input_source                = 1, !3, V3.8 default
+ num_soil_layers                     = 6, !or 9(better)
+ num_land_cat                        = 24,!21, V3.8 default
+ sf_urban_physics                    = 0,     0,     0,
+ aer_opt                             = 2,  !2, if aerosol is input from "auxinput15_inname"
+ aer_aod550_opt                      = 2,     2,
+ aer_angexp_opt                      = 2,     2,
+ swint_opt                           = 2 !FARMS
+ use_aero_icbc                       = .true. !.false. use constant
+ ccn_conc                            = 0.6e9
+ nssl_cccn                           = 0.6e9
+! cu_rad_feedback                     = .true.,.true.,
+! cu_diag                             = 1,     1,
+ dispers                             = 1  !0=ThomA scheme, 1-5=BNL scheme
+ vdis                                = {vdis}
+ turbopt                             = 1
+ beta_con                            = {beta_con}
+ entrmix_opt                         = 3 ! 0=no entrainment-mixing, 1=cumulus, 2=stratocumulus, 3=specified entrmix_a, 4=Xu et al 2021 fitting with on grid RH
+ entrmix_a                           = 52
+ entrRHd_c                           = 0.5  ! [0-1] representing the combination of two RHd calculations. When>1, use the RH on grid for sub-saturated grids instead.
+ entrcf_opt                          = 2 ! 0=xiaoqi's default, 1=xiaoqi's 3-para formula, 2=Xu-Randall 3-para formula
+ RHd_ave_opt                         = 0 ! 0=no ave, 1=domain ave, 2=neighboring ave
+ bl_mynn_tkebudget                   = 1
+ tkediss_opt                         = 2 ! 0=Andrejczuk 2009, using L_scale (default), 1=Deardorff 1980, 2=from PBL scheme(bl_mynn_tkebudget=1)
+ L_scale_opt                         = 0 ! 0=user specified L_scale, 1=max el_pbl, 2=pblh
+ L_scale                             = 100
+ /
+
+ &fdda
+ /
+
+ &dynamics
+ hybrid_opt                          = 2, 
+ w_damping                           = 0,
+ diff_opt                            = 2,      2,      2,
+ km_opt                              = 4,      4,      4,
+ diff_6th_opt                        = 0,      0,      0,
+ diff_6th_factor                     = 0.12,   0.12,   0.12,
+ base_temp                           = 290.
+ damp_opt                            = 3,
+ zdamp                               = 2000,   2000,   2000, !5000., reduce fake high clouds?
+ dampcoef                            = 0.2,    0.2,    0.2
+ khdif                               = 0,      0,      0,
+ kvdif                               = 0,      0,      0,
+ non_hydrostatic                     = .true., .true., .true.,
+ moist_adv_opt                       = 1,      1,      1,     
+ scalar_adv_opt                      = 1,      1,      1,     
+ gwd_opt                             = 1, !recomended in V4
+ /
+
+ &bdy_control
+ spec_bdy_width                      = 5,
+ specified                           = .true.
+ /
+
+ &grib2
+ /
+
+ &namelist_quilt
+ nio_tasks_per_group = 0,
+ nio_groups = 1,
+ /
